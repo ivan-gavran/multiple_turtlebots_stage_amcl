@@ -1,0 +1,29 @@
+ <launch>
+ <arg name="namespace" default="default_namespace"/>
+ <arg name="initial_pose_x" default="0"/>
+ <arg name="initial_pose_y" default="0"/>
+ <arg name="initial_pose_a" default="0"/>
+ 
+ <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+      <remap from="map" to="/map" />
+      <param name="controller_frequency" value="10.0" />
+      <rosparam file="$(find multiple_robots_stage)/params/move_base_config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find multiple_robots_stage)/params/move_base_config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find multiple_robots_stage)/params/move_base_config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find multiple_robots_stage)/params/move_base_config/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find multiple_robots_stage)/params/move_base_config/base_local_planner_params.yaml" command="load" />
+    </node>
+    
+    
+	
+     <include file="$(find multiple_robots_stage)/launch/includes/amcl.launch">
+	 	<arg name="tf_prefix" value="$(arg namespace)"/>
+		<arg name="scan_topic" value="base_scan" />
+		<arg name="use_map_topic" value="true" />
+		<arg name="initial_pose_x" value="$(arg initial_pose_x)" />
+		<arg name="initial_pose_y" value="$(arg initial_pose_y)" />
+		<arg name="initial_pose_a" value="$(arg initial_pose_a)" />
+		<arg name="global_frame_id" value="/map"/>
+	</include>
+	
+	</launch>

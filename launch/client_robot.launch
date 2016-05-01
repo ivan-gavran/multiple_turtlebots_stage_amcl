@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="multiple_robots_stage" type="client_patrol_single.py" name="client_node" output="screen"/>
+</launch>

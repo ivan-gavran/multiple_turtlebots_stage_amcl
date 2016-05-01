@@ -1,0 +1,45 @@
+<launch>
+<arg name="world_file" default="$(find multiple_robots_stage)/maps/worlds/twoRobots.world" />
+	<arg name="map_file" default="$(find multiple_robots_stage)/maps/twoRooms.yaml" />
+	<arg name="waypoints" default='0' />
+	<arg name="robotName1" default="robot_0" />
+	<arg name="robotName2" default="robot_1" />
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_file)" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>
+
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(arg world_file)" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+
+  <!-- BEGIN ROBOT 0 -->
+  <group ns="robot_0">
+    <param name="tf_prefix" value="$(arg robotName1)" />
+    <include file="$(find multiple_robots_stage)/launch/client_robot.launch"/>
+    <include file="$(find multiple_robots_stage)/launch/includes/single_robot.launch">
+    	<arg name="namespace" value="$(arg robotName1)"/>
+    	<arg name="initial_pose_x" value="0.0"/>
+    	<arg name="initial_pose_y" value="0.0"/>
+    	<arg name="initial_pose_a" value="0.0"/>
+    </include>
+  </group>
+  <!-- END ROBOT 0 -->
+
+
+  <!-- BEGIN ROBOT 1 -->
+  <group ns="robot_1">
+    <param name="tf_prefix" value="$(arg robotName2)" />
+    <include file="$(find multiple_robots_stage)/launch/client_robot.launch"/>
+    <include file="$(find multiple_robots_stage)/launch/includes/single_robot.launch">
+    	<arg name="namespace" value="$(arg robotName2)"/>
+    	<arg name="initial_pose_x" value="1.0"/>
+    	<arg name="initial_pose_y" value="1.0"/>
+    	<arg name="initial_pose_a" value="0.0"/>
+    </include>
+  </group>
+  <!-- END ROBOT 1 -->
+  
+</launch>
