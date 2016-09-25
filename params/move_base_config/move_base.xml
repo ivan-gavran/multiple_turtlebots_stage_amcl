@@ -9,6 +9,7 @@
 
     <param name="oscillation_timeout" value="30.0" />
     <param name="oscillation_distance" value="0.5" />
+    
 
     <!--
     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />

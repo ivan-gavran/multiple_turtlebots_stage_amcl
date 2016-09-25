@@ -35,7 +35,7 @@ class ActionExec(object):
         goal.target_pose.pose.orientation.z = 0.0
         goal.target_pose.pose.orientation.w = 1.0
         
-        self.client.send_goal(goal)
+        self.client.send_goal(goal, done_cb = self.whenDone)
         finishedOnTime = self.client.wait_for_result(rospy.Duration(60))
         state = self.client.get_state()
         #result = self.client.send_goal_and_wait(goal, rospy.Duration(60))
@@ -45,7 +45,11 @@ class ActionExec(object):
         else:
             rospy.logerr("navigation failed")
             self.status_publisher.publish("failure")
-            
+    
+    def whenDone(self, state, res):
+        rospy.logerr("callback")
+        rospy.logerr(state)
+        rospy.logerr(res)        
     
 def main():
     parser = argparse.ArgumentParser()
