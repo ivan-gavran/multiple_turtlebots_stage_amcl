@@ -12,8 +12,15 @@
       <rosparam file="$(find multiple_robots_stage)/params/move_base_config/local_costmap_params.yaml" command="load" />
       <rosparam file="$(find multiple_robots_stage)/params/move_base_config/global_costmap_params.yaml" command="load" />
       <rosparam file="$(find multiple_robots_stage)/params/move_base_config/base_local_planner_params.yaml" command="load" />
+      
       <param name="planner_patience" value="2.0" />
+      
       <param name="max_planning_retries" value="4" />
+      
+      <param name="recovery_behavior_enabled" value="true"/>
+      
+      <param name="recovery_behaviors" value="[ {name: rotate_recovery, type: rotate_recovery/RotateRecovery}, {name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery},{name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]"/>
+      
     </node>
     
     
